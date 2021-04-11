@@ -37,7 +37,6 @@ class App:
         pygame.quit()
         sys.exit()   
 
-
 ######################## HELPER FUNCTIONS ###################
 
 def draw_text(self, words, screen, pos, size, colour, font_name, centered=False):
@@ -88,7 +87,42 @@ def draw_grid(self):
 
     def start_draw(self):
         self.screen.fill(BLACK)
-        #self.draw_text('PUSH SPACE BAR'self.screen, (WIDTH//2, HEIGHT//2), START_TEXT_SIZE, (170, 132, 58), START_FONT, centered=True)
-        #self.draw_text('1 PLAYER ONLY'self.screen, (WIDTH//2, HEIGHT//2+50), START_TEXT_SIZE, (44, 167, 1598), START_FONT, centered=True)
-        #self.draw_text('HIGH SCORE'self.screen, (5,0), START_TEXT_SIZE, (255,255,255), START_FONT)
+        self.draw_text('PUSH SPACE BAR'self.screen, (WIDTH//2, HEIGHT//2), START_TEXT_SIZE, (170, 132, 58), START_FONT, centered=True)
+        self.draw_text('1 PLAYER ONLY'self.screen, (WIDTH//2, HEIGHT//2+50), START_TEXT_SIZE, (44, 167, 1598), START_FONT, centered=True)
+        self.draw_text('HIGH SCORE'self.screen, (5,0), START_TEXT_SIZE, (255,255,255), START_FONT)
         pygame.display.update()
+
+######################### PLAYING functions ####################
+
+    def playing_events(self): 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.player.move(vec(-1,0))
+                if event.key == pygame.K_RIGHT:
+                    self.player.move(vec(1,0))
+                if event.key == pygame.K_UP:
+                    self.player.move((vec(0,-1))
+                if event.key == pygame.K_DOWN:
+                    self.player.move(vec(0,1))
+
+            
+    def playing_update(self):
+        self.player.update()
+
+    def playing_draw(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.background (TOP_BOTTOM_BUFFER//2, TOP_BOTTOM_BUFFER//2))
+        self.draw_coins()
+        #self.draw_grid()
+        self.draw_text('CURRENT SCRORE: 0', self.screen, [60,0], 18, WHITE, START_FONT)
+        self.draw_text('HIGH SCRORE: 0', self.screen, [WIDTH//2 + 60,0], 18, WHITE, START_FONT)
+        self.player.draw()
+        pygame.display.update()
+
+    def draw_coins(self):
+        for coin in self.coins:
+            pygame.draw.circle(self.screen, (82, 210, 149), (int(coin.x*self.cell_width)+self.cell_width//2+TOP_BOTTOM_BUFFER//2, int(coin.y*self.cell_height)+self.cell_height//2+TOP_BOTTOM_BUFFER//2), 5)
+    
